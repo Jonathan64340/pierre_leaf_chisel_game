@@ -12,12 +12,18 @@ router.get('/', function (req, res) {
     res.render('onboarding/index', { breadcrumb: Breadcrumb.data.location, current_path: req.path });
 });
 
-// Define route to acces profile user
+// Define route to access on dashboard
 router.get('/dashboard', function (req, res) {
     // Get location
     let Breadcrumb = new Breadcrumb_();
     Breadcrumb.setBreadcrumb(req.path);
     res.render('dashboard/index', { breadcrumb: Breadcrumb.data.location, current_path: req.path });
+});
+
+// Redirect to dashboard or login if user is not logged in
+router.get('*', function (req, res) {
+    // TODO check user with cookie ??
+    res.redirect('/');
 });
 
 module.exports = router;
