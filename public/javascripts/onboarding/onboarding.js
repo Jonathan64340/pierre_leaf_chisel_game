@@ -19,7 +19,7 @@ class Onboarding {
 
     onSubmit() {
         if(this.username.value.length >= 3 && this.username.value.length <= 15) {
-            window.location.href = "/profile";
+            window.location.href = "/dashboard";
         } else {
 
         }

@@ -1,10 +1,19 @@
+<head>
+    <link rel="stylesheet" href="styles/header/header.css">
+</head>
+
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb amber lighten-4">
         <a>Vous êtes ici > </a>&nbsp;
 
-        <% for(let i = 0; i < breadcrumb.length; i ++) { %> 
-            <li class="breadcrumb-item"><a class="black-text" href="<%= breadcrumb[i].path %>"><%= breadcrumb[i].name %></a><i class="fas fa-caret-left mx-2"
-                aria-hidden="true"></i></li>
+        <% for(let i = 0; i < breadcrumb.length; i ++) { %>
+            <% if(breadcrumb[i].path === current_path) { %> 
+                <li class="breadcrumb-item"><span class="<%= breadcrumb[i].path === current_path ? 'black-text active' : 'black-text' %>" href="<%= breadcrumb[i].path %>"><%= breadcrumb[i].name %></span><i class="fas fa-caret-left mx-2"
+                    aria-hidden="true"></i></li>
+            <% } else { %> 
+                <li class="breadcrumb-item"><a class="<%= breadcrumb[i].path === current_path ? 'black-text active' : 'black-text' %>" href="<%= breadcrumb[i].path %>"><%= breadcrumb[i].name %></a><i class="fas fa-caret-left mx-2"
+                    aria-hidden="true"></i></li>
+            <% } %>
         <% } %>
 
     </ol>
