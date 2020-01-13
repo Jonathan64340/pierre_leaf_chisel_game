@@ -1,0 +1,22 @@
+@font-face {
+    font-family: "Badabb";
+    src: url(../../fonts/BADABB__.TTF);
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(#e66465, #9198e5);
+}
+
+/* Button */
+button[class=btn-rounded] {
+    width: 500px;
+}
+
+.description-icon {
+    color: white;
+    text-align: center;
+    text-shadow: teal 1px 2px 2px;
+    font-family: "Badabb";
+}

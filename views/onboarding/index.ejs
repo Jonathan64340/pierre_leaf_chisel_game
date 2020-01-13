@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pierre, Papier, Ciseaux</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="styles/onboarding/onboarding.css" type="text/css">
+    <link rel="stylesheet" href="styles/footer/footer.css">
+</head>
+<body>
+    <%- include("../header/index.ejs") %>
+    <main>
+        <div class="container" style="height: 100vh;">
+            <div class="row justify-content-md-center justify-content-sm-center h-100">
+                <div class="col-md-6 col-sm-10 my-auto">
+                    <div class="d-flex justify-content-center container mb-5">
+                        <div id="pierre-icon" class="ml-1 mr-1 rounded"><p class="description-icon">Pierre</p></div>
+                        <div id="leaf-icon" class="ml-1 mr-1 rounded"><p class="description-icon">Feuille</p></div>
+                        <div id="chisel-icon" class="ml-1 mr-1 rounded"><p class="description-icon">Ciseaux</p></div>
+                    </div>
+                    <input type="text" class="form-control" id="username" placeholder="Sélectionnez un pseudo">
+                    <!-- Warning Alert -->
+                    <div class="alert alert-warning alert-dismissible fade show">
+                        <strong>Attention !</strong> Le pseudo saisie n'est pas valide
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    </div>
+                    <button class="btn btn-light border border-light mx-auto mt-3 d-flex" onclick="Onboarding_.onSubmit()">Se connecter</button>
+                    <script src="javascripts/onboarding/onboarding.js" type="text/javascript"></script>                    
+                </div>
+            </div>
+        </div> 
+    </main>
+
+    <%- include("../footer/index") %>
+
+</body>
+</html>

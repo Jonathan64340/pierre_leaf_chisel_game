@@ -1,0 +1,8 @@
+footer {
+    background-color: #47423f;
+    color: white;
+}
+
+footer a[href] {
+    color: rgba(172, 184, 240, 0.5);
+}

@@ -1,0 +1,13 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb amber lighten-4">
+        <a>Vous êtes ici > </a>&nbsp;
+
+        <% for(let i = 0; i < breadcrumb.length; i ++) { %> 
+            <li class="breadcrumb-item"><a class="black-text" href="<%= breadcrumb[i].path %>"><%= breadcrumb[i].name %></a><i class="fas fa-caret-left mx-2"
+                aria-hidden="true"></i></li>
+        <% } %>
+
+    </ol>
+</nav>
+
+<script src="javascripts/breadcrumb/breadcrumb.js" type="text/javascript"></script>
