@@ -1,18 +1,18 @@
 <head>
     <link rel="stylesheet" href="styles/header/header.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
 </head>
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb amber lighten-4">
-        <a>Vous êtes ici > </a>&nbsp;
+        <a>Vous êtes ici <i class="fa fa-caret-right" aria-hidden="true"></i>
+        </a>&nbsp;
 
         <% for(let i = 0; i < breadcrumb.length; i ++) { %>
             <% if(breadcrumb[i].path === current_path) { %> 
-                <li class="breadcrumb-item"><span class="<%= breadcrumb[i].path === current_path ? 'black-text active' : 'black-text' %>" href="<%= breadcrumb[i].path %>"><%= breadcrumb[i].name %></span><i class="fas fa-caret-left mx-2"
-                    aria-hidden="true"></i></li>
-            <% } else { %> 
-                <li class="breadcrumb-item"><a class="<%= breadcrumb[i].path === current_path ? 'black-text active' : 'black-text' %>" href="<%= breadcrumb[i].path %>"><%= breadcrumb[i].name %></a><i class="fas fa-caret-left mx-2"
-                    aria-hidden="true"></i></li>
+                <li class="breadcrumb-item"><span class="<%= breadcrumb[i].path === current_path ? 'black-text active' : 'black-text' %>" href="<%= breadcrumb[i].path %>"><%= breadcrumb[i].name %></span></li>
+            <% } else { %>
+                <li class="breadcrumb-item"><a class="<%= breadcrumb[i].path === current_path ? 'black-text active' : 'black-text' %>" href="<%= breadcrumb[i].path %>"><%= breadcrumb[i].name %></a></li>
             <% } %>
         <% } %>
 
