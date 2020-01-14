@@ -6,6 +6,7 @@ class Onboarding {
         this.chisel = document.getElementById('chisel-icon');
         // Inputs
         this.username = document.getElementById('username');
+        this.errorField = document.getElementById('errorField');
 
         let that = this;
 
@@ -19,9 +20,24 @@ class Onboarding {
 
     onSubmit() {
         if(this.username.value.length >= 3 && this.username.value.length <= 15) {
-            window.location.href = "/dashboard";
+            // Use regex to escape non alphanumeric characts
+            if(/[^a-zA-Z0-9\-\/]/.test(this.username.value)) {
+                this.errorField.innerHTML = `<div class="alert alert-warning alert-dismissible fade show">
+                                                <strong>Attention !</strong> Le pseudo saisie n'est pas valide. Le pseudo ne doit pas contenir de charactères spéciaux.
+                                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                            </div>`;
+                return false;
+            } else {
+                this.errorField.innerHTML = "";
+                window.location.href = "/dashboard";
+                return true;
+            }
         } else {
-
+            this.errorField.innerHTML = `<div class="alert alert-warning alert-dismissible fade show">
+                                            <strong>Attention !</strong> Le pseudo doit contenir au minimum 3 charactères et maximum 15 charactères.
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        </div>`;
+            return false;
         }
     }
 
@@ -50,14 +66,6 @@ class Onboarding {
                 icon.style.backgroundSize = "350%";
                 icon.style.backgroundPosition = "95% 52%";
             break;
-        }
-    }
-
-    onChange(ev='') {
-        if(typeof ev === 'string') {
-            if(ev === 'username') {
-                return localStorage.setItem('username', this.username.value);
-            }
         }
     }
 }
