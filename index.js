@@ -8,7 +8,6 @@
 const dotenv = require('dotenv');
 const express = require('express');
 const router = require('./routes/routes');
-const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
 // Configuration
@@ -20,9 +19,6 @@ const app = express();
 
 //Use bodyParser
 app.use(bodyParser.json());
-
-// Initialize cookie
-app.use(cookieParser('newYear2020'));
 
 // Define EJS for templating
 app.set('view engine', 'EJS');
