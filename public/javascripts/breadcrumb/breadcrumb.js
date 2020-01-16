@@ -1,5 +1,5 @@
 if(typeof module === 'object') {
-    module.exports = class Breadcrumb {
+    class Breadcrumb {
         constructor() {
             this.data = {
                 location: []
@@ -19,14 +19,20 @@ if(typeof module === 'object') {
                     break;
     
                     case "/dashboard":
-                        this.data.location.push({ name: "Déconnexion", path: "/" });
+                        this.data.location.push({ name: "Déconnexion", path: "/", action: "logout" });
                         this.data.location.push({ name: "Dashboard", path: "/dashboard" });
                     break;
                 };
     
                 return this.data;
             };
-            
+        };
+
+        log() {
+            console.log('ok');
         };
     };
-}
+
+    const Breadcrumb_ = new Breadcrumb();
+    module.exports = Breadcrumb;
+};

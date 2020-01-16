@@ -29,7 +29,7 @@ class Onboarding {
                 return false;
             } else {
                 this.errorField.innerHTML = "";
-                window.location.href = "/dashboard";
+                window.location.href = "/dashboard?name=" + encodeURI(this.username.value);
                 return true;
             }
         } else {
