@@ -3,6 +3,8 @@
 const express = require('express');
 const router = express.Router();
 const Breadcrumb_ = require('../public/javascripts/breadcrumb/breadcrumb.js');
+const url = require('url');
+const Authenticate = require('../controller/authentication/authentication.js');
 
 // middleware that is specific to this router
 router.get('/', function (req, res) {
@@ -16,12 +18,11 @@ router.get('/', function (req, res) {
 
 // Define route to access on dashboard
 router.get('/dashboard', function (req, res) {
-    console.log(req.cookies)
     // Check user before redirect
     // Get location
     let Breadcrumb = new Breadcrumb_();
     Breadcrumb.setBreadcrumb(req.path);
-    render('dashboard/index', { breadcrumb: Breadcrumb.data.location, current_path: req.path });
+    res.render('dashboard/index', { breadcrumb: Breadcrumb.data.location, current_path: req.path });
 });
 
 // Define route to logout user
@@ -30,7 +31,43 @@ router.get('/logout', function (req, res) {
     let Breadcrumb = new Breadcrumb_();
     Breadcrumb.setBreadcrumb(req.path);
     
-    render('onboarding/index', { breadcrumb: Breadcrumb.data.location, current_path: req.path });
+    res.render('onboarding/index', { breadcrumb: Breadcrumb.data.location, current_path: req.path, action: 'logout' });
+});
+
+// Authenticate user
+router.post('/api/login', function (req, res) {
+    return new Promise((resolve, reject) => {
+        // Get location
+        let Breadcrumb = new Breadcrumb_();
+        Breadcrumb.setBreadcrumb(req.path);
+    
+        // Get username
+        let parse_url = url.parse(req.url, true);
+        let query = parse_url.query['user'].toString();
+    
+        // Call controller to verify if user exist or not and call action
+        let auth = new Authenticate();
+        if(typeof query === 'string') {
+            auth.doLogin(query)
+            .then(user => {
+                console.log('userrrrrrr', query)
+                    if(user.user_exist) {
+                        resolve(user);
+                        res.sendStatus(200);
+                    };
+                })
+                .catch(err => {
+                    reject(err);
+                    res.sendStatus(404);
+                });
+        };
+
+    });
+});
+
+// Define route to return JWT Token to pass bearer on request
+router.post('/api/login/access_token', function (res, res) {
+    res.send('');
 });
 
 // Redirect to dashboard or login if user is not logged in

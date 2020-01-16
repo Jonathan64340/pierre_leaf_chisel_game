@@ -28,9 +28,43 @@ class Onboarding {
                                             </div>`;
                 return false;
             } else {
-                this.errorField.innerHTML = "";
-                window.location.href = "/dashboard?name=" + encodeURI(this.username.value);
-                return true;
+                if(window.fetch) {
+                    let headers = new Headers({
+                        'Content-Type': 'application/json'
+                    });
+
+                    const authOption = {
+                        method: 'POST',
+                        headers: headers,
+                        user: {
+                            user: this.username.value
+                        }
+                    };
+
+                    fetch("http://localhost:5555/api/login?user=" + encodeURI(this.username.value), authOption)
+                        .then(authenticateUser => {
+                            console.log('user', authenticateUser);
+                            switch(authenticateUser.status) {
+                                case 200: 
+                                    this.errorField.innerHTML = "";
+                                    // window.location.href = "/dashboard";
+                                    $('#authenticateLoginModal').modal('show');
+                                break;
+
+                                case 404:
+                                    this.errorField.innerHTML = "";
+                                    // window.location.href = "/dashboard";
+                                    $('#authenticateRegisterModal').modal('show');
+                                break;
+                            };
+                           
+                        })
+                        .catch(error => {
+                            console.log('ereur:ksdkfs')
+                            this.errorField.innerHTML = "";
+                            // window.location.href = "/";
+                        });
+                };
             }
         } else {
             this.errorField.innerHTML = `<div class="alert alert-warning alert-dismissible fade show">
