@@ -35,13 +35,7 @@ class Onboarding {
                 this.statusOnSubmit.hidden = false;
                 this.btnSubmit.setAttribute('disabled', true);
 
-                let headers = {
-                    data: {
-                        user: encodeURI(this.username.value)
-                    }
-                };
-
-                axios.post("http://localhost:5555/api/login?user=" + this.username.value)
+                axios.post("http://localhost:5555/api/login?user=" + this.username.value.toLowerCase())
                     .then(authenticateUser => {
                         console.log('user', authenticateUser);
                         switch(authenticateUser.status) {
@@ -55,7 +49,6 @@ class Onboarding {
                         };
                     })
                     .catch(err => {
-
                         this.statusOnSubmit.hidden = true;
                         this.errorField.innerHTML = "";
                         // window.location.href = "/dashboard";
