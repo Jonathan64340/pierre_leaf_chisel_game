@@ -7,6 +7,9 @@ class Onboarding {
         // Inputs
         this.username = document.getElementById('username');
         this.errorField = document.getElementById('errorField');
+        this.statusOnSubmit = document.getElementById('statusOnSubmit');
+        // Buttons
+        this.btnSubmit = document.getElementById('btnSubmit');
 
         let that = this;
 
@@ -22,56 +25,52 @@ class Onboarding {
         if(this.username.value.length >= 3 && this.username.value.length <= 15) {
             // Use regex to escape non alphanumeric characts
             if(/[^a-zA-Z0-9\-\/]/.test(this.username.value)) {
-                this.errorField.innerHTML = `<div class="alert alert-warning alert-dismissible fade show">
+                this.errorField.innerHTML = `<div class="alert alert-warning alert-dismissible fade show mt-2">
                                                 <strong>Attention !</strong> Le pseudo saisie n'est pas valide. Le pseudo ne doit pas contenir de charactères spéciaux.
                                                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                                             </div>`;
                 return false;
             } else {
-                if(window.fetch) {
-                    let headers = new Headers({
-                        'Content-Type': 'application/json'
-                    });
 
-                    const authOption = {
-                        method: 'POST',
-                        headers: headers,
-                        user: {
-                            user: this.username.value
-                        }
-                    };
+                this.statusOnSubmit.hidden = false;
+                this.btnSubmit.setAttribute('disabled', true);
 
-                    fetch("http://localhost:5555/api/login?user=" + encodeURI(this.username.value), authOption)
-                        .then(authenticateUser => {
-                            console.log('user', authenticateUser);
-                            switch(authenticateUser.status) {
-                                case 200: 
-                                    this.errorField.innerHTML = "";
-                                    // window.location.href = "/dashboard";
-                                    $('#authenticateLoginModal').modal('show');
-                                break;
-
-                                case 404:
-                                    this.errorField.innerHTML = "";
-                                    // window.location.href = "/dashboard";
-                                    $('#authenticateRegisterModal').modal('show');
-                                break;
-                            };
-                           
-                        })
-                        .catch(error => {
-                            console.log('ereur:ksdkfs')
-                            this.errorField.innerHTML = "";
-                            // window.location.href = "/";
-                        });
+                let headers = {
+                    data: {
+                        user: encodeURI(this.username.value)
+                    }
                 };
-            }
+
+                axios.post("http://localhost:5555/api/login?user=" + this.username.value)
+                    .then(authenticateUser => {
+                        console.log('user', authenticateUser);
+                        switch(authenticateUser.status) {
+                            case 200: 
+                                this.statusOnSubmit.hidden = true;
+                                this.errorField.innerHTML = "";
+                                // window.location.href = "/dashboard";
+                                this.btnSubmit.removeAttribute('disabled');
+                                $('#authenticateLoginModal').modal('show');
+                            break;
+                        };
+                    })
+                    .catch(err => {
+
+                        this.statusOnSubmit.hidden = true;
+                        this.errorField.innerHTML = "";
+                        // window.location.href = "/dashboard";
+                        this.btnSubmit.removeAttribute('disabled');
+                        $('#authenticateRegisterModal').modal('show');
+                        this.btnSubmit.removeAttribute('disabled');
+                    })
+                }
         } else {
-            this.errorField.innerHTML = `<div class="alert alert-warning alert-dismissible fade show">
+            this.statusOnSubmit.hidden = true;
+            this.errorField.innerHTML = `<div class="alert alert-warning alert-dismissible fade show mt-2">
                                             <strong>Attention !</strong> Le pseudo doit contenir au minimum 3 charactères et maximum 15 charactères.
                                             <button type="button" class="close" data-dismiss="alert">&times;</button>
                                         </div>`;
-            return false;
+            this.btnSubmit.removeAttribute('disabled');
         }
     }
 
