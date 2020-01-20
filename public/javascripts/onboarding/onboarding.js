@@ -1,5 +1,11 @@
 class Onboarding {
     constructor() {
+        // InitalState
+        this.state = {
+            username: null,
+            avatar: null,
+            validateCondition: false
+        };
         // Icons
         this.pierre = document.getElementById('pierre-icon');
         this.leaf = document.getElementById('leaf-icon');
@@ -20,6 +26,39 @@ class Onboarding {
             that.setIcon(that.chisel, 3);
         }
 
+    }
+
+    selectAvatar(avatar) {
+        for(let i = 0; i <= document.getElementsByClassName('active-avatar').length; i++) {
+            if(typeof document.getElementsByClassName('active-avatar')[i] !== 'undefined') {
+                if(new RegExp(/(active-avatar)/gi).test(document.getElementsByClassName('active-avatar')[i].className)) {
+                    document.getElementsByClassName('active-avatar')[i].classList.remove('active-avatar');
+                }
+            };
+        };
+        avatar.classList.add('active-avatar');
+        this.state.avatar = avatar.getAttribute('src');
+    }
+
+    validateCheck() {
+        let fwd = document.getElementById('forwarding');
+
+        this.state.validateCondition = !this.state.validateCondition;
+
+        if(this.state.username && this.state.avatar && this.state.validateCondition) {
+            fwd.removeAttribute('disabled');
+        } else {
+            fwd.setAttribute('disabled', true);  
+        }
+    }
+
+    canForward() {
+        let fwd = document.getElementById('forwarding');
+        if(this.state.username && this.state.avatar && this.state.validateCondition) {
+            fwd.removeAttribute('disabled');
+        } else {
+            fwd.setAttribute('disabled', true);  
+        }
     }
 
     onSubmit() {
@@ -46,6 +85,7 @@ class Onboarding {
                                 // window.location.href = "/dashboard";
                                 this.btnSubmit.removeAttribute('disabled');
                                 $('#authenticateLoginModal').modal('show');
+                                this.state.username = this.username.value.toLowerCase();
                             break;
                         };
                     })
@@ -56,6 +96,7 @@ class Onboarding {
                         this.btnSubmit.removeAttribute('disabled');
                         $('#authenticateRegisterModal').modal('show');
                         this.btnSubmit.removeAttribute('disabled');
+                        this.state.username = this.username.value.toLowerCase();
                         let that = this;
                         $('#authenticateRegisterModal').on('shown.bs.modal', function () {
                             let avatar_list = document.getElementById('avatar-list');
@@ -79,7 +120,7 @@ class Onboarding {
     displayAvatars(av) {
         let html = "";
         for(let i = 1; i <= 15; i++) {
-            html += `<img src="../images/profile/avatar/${i}.svg" class="rounded m-1 img-thumbnail" width="45" height="45" alt="..."></img>`
+            html += `<img src="../images/profile/avatar/${i}.svg" class="rounded m-1 img-thumbnail avatar-select" onClick="Onboarding_.selectAvatar(this)" width="45" height="45" alt="..." onchange="Onboarding_.canForward()"></img>`
             if(i == 15) {
                 av.innerHTML = html;
             }
