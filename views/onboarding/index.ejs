@@ -22,7 +22,7 @@
                         <div id="leaf-icon" class="ml-1 mr-1 rounded"><p class="description-icon">Feuille</p></div>
                         <div id="chisel-icon" class="ml-1 mr-1 rounded"><p class="description-icon">Ciseaux</p></div>
                     </div>
-                    <input type="text" minlength="3" maxlength="15" class="form-control" id="username" placeholder="Sélectionnez un pseudo">
+                    <input type="text" minlength="3" maxlength="15" class="form-control" id="username" value="" placeholder="Sélectionnez un pseudo">
                     <!-- Warning Alert -->
                     <div id="errorField"></div>
                     <button class="btn btn-light border border-light mx-auto mt-3 d-flex" id="btnSubmit" onClick="Onboarding_.onSubmit()">
@@ -58,13 +58,22 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="ModalRegisterLabel">Enregistrement</h5>
+                <h5 class="modal-title" id="ModalRegisterLabel">Bienvenue <b><span id="name_pseudo"></span></b> !</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 </div>
                 <div class="modal-body">
-                ...
+                    <form>
+                        <div class="form-group">
+                            <label>Choisissez votre avatar fétiche :)</label>
+                            <div id="avatar-list"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pwd">Mot de passe</label>
+                            <input type="password" class="form-control" name="password" autocomplete="current-password" placeholder="Entrez un de passe ici" id="pwd" value="">
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>

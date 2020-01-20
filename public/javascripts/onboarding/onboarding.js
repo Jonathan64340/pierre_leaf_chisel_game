@@ -4,6 +4,7 @@ class Onboarding {
         this.pierre = document.getElementById('pierre-icon');
         this.leaf = document.getElementById('leaf-icon');
         this.chisel = document.getElementById('chisel-icon');
+        this.avatarList = document.getElementById('avatar-list');
         // Inputs
         this.username = document.getElementById('username');
         this.errorField = document.getElementById('errorField');
@@ -55,8 +56,16 @@ class Onboarding {
                         this.btnSubmit.removeAttribute('disabled');
                         $('#authenticateRegisterModal').modal('show');
                         this.btnSubmit.removeAttribute('disabled');
-                    })
-                }
+                        let that = this;
+                        $('#authenticateRegisterModal').on('shown.bs.modal', function () {
+                            let avatar_list = document.getElementById('avatar-list');
+                            let name = document.getElementById('name_pseudo');
+                            name.innerText = that.username.value;
+                            // Set icons avatar
+                            that.displayAvatars(avatar_list);
+                        });
+                    });
+                };
         } else {
             this.statusOnSubmit.hidden = true;
             this.errorField.innerHTML = `<div class="alert alert-warning alert-dismissible fade show mt-2">
@@ -64,8 +73,18 @@ class Onboarding {
                                             <button type="button" class="close" data-dismiss="alert">&times;</button>
                                         </div>`;
             this.btnSubmit.removeAttribute('disabled');
-        }
-    }
+        };
+    };
+
+    displayAvatars(av) {
+        let html = "";
+        for(let i = 1; i <= 15; i++) {
+            html += `<img src="../images/profile/avatar/${i}.svg" class="rounded m-1 img-thumbnail" width="45" height="45" alt="..."></img>`
+            if(i == 15) {
+                av.innerHTML = html;
+            }
+        };
+    };
 
     setIcon(icon, position) {
         switch(position) {
@@ -92,8 +111,8 @@ class Onboarding {
                 icon.style.backgroundSize = "350%";
                 icon.style.backgroundPosition = "95% 52%";
             break;
-        }
-    }
-}
+        };
+    };
+};
 
 const Onboarding_ = new Onboarding();
