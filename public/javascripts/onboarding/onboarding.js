@@ -55,10 +55,17 @@ class Onboarding {
 
     validatePassword() {
         let pwd = document.getElementById('pwd');
+        let fwd = document.getElementById('forwarding');
+
         if(pwd.value) {
             console.log(pwd.value)
             console.log(this.state)
             this.state.password = pwd.value;
+            if(this.state.username && this.state.avatar && this.state.validateCondition && this.state.password.length >= 3) {
+                fwd.removeAttribute('disabled');
+            } else {
+                fwd.setAttribute('disabled', true);  
+            }
         }
     }
 
