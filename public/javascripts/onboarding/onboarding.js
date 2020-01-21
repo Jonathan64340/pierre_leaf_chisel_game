@@ -4,7 +4,8 @@ class Onboarding {
         this.state = {
             username: null,
             avatar: null,
-            validateCondition: false
+            validateCondition: false,
+            password: null
         };
         // Icons
         this.pierre = document.getElementById('pierre-icon');
@@ -44,17 +45,26 @@ class Onboarding {
         let fwd = document.getElementById('forwarding');
 
         this.state.validateCondition = !this.state.validateCondition;
-
-        if(this.state.username && this.state.avatar && this.state.validateCondition) {
+        console.log(this.state)
+        if(this.state.username && this.state.avatar && this.state.validateCondition && this.state.password.length >= 3) {
             fwd.removeAttribute('disabled');
         } else {
             fwd.setAttribute('disabled', true);  
         }
     }
 
+    validatePassword() {
+        let pwd = document.getElementById('pwd');
+        if(pwd.value) {
+            console.log(pwd.value)
+            console.log(this.state)
+            this.state.password = pwd.value;
+        }
+    }
+
     canForward() {
         let fwd = document.getElementById('forwarding');
-        if(this.state.username && this.state.avatar && this.state.validateCondition) {
+        if(this.state.username && this.state.avatar && this.state.validateCondition && this.state.password.length >= 3) {
             fwd.removeAttribute('disabled');
         } else {
             fwd.setAttribute('disabled', true);  
