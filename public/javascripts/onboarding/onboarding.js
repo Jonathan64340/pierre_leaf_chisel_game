@@ -39,6 +39,14 @@ class Onboarding {
         };
         avatar.classList.add('active-avatar');
         this.state.avatar = avatar.getAttribute('src');
+
+        let fwd = document.getElementById('forwarding');
+
+        if(this.state.username && this.state.avatar && this.state.validateCondition && this.state.password.length >= 3) {
+            fwd.removeAttribute('disabled');
+        } else {
+            fwd.setAttribute('disabled', true);  
+        }
     }
 
     validateCheck() {
