@@ -27,7 +27,7 @@ router.get('/dashboard', function (req, res) {
 });
 
 // Define route to logout user
-router.get('/logout', function (req, res) {
+router.get('/api/logout', function (req, res) {
     // Get location
     let Breadcrumb = new Breadcrumb_();
     Breadcrumb.setBreadcrumb(req.path);

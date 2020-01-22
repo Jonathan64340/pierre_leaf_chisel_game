@@ -9,6 +9,7 @@ const dotenv = require('dotenv');
 const express = require('express');
 const router = require('./routes/routes');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 // Configuration
 // Load defaut config (.env)
@@ -20,12 +21,15 @@ const app = express();
 //Use bodyParser
 app.use(bodyParser.json());
 
+app.use(bodyParser.urlencoded({ extended: false }));
+
 // Define EJS for templating
 app.set('view engine', 'EJS');
 app.use(express.static('public'));
 
 // Bind routes
 app.use(router);
+app.use(cors());
 
 // Listen server
 app.listen(process.env.PORT, function () { 
