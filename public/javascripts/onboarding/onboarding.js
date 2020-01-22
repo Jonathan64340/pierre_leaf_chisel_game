@@ -139,7 +139,6 @@ class Onboarding {
                         // window.location.href = "/dashboard";
                         this.btnSubmit.removeAttribute('disabled');
                         $('#authenticateRegisterModal').modal('show');
-                        this.btnSubmit.removeAttribute('disabled');
                         this.state.username = this.username.value.toLowerCase();
                         let that = this;
                         $('#authenticateRegisterModal').on('shown.bs.modal', function () {
