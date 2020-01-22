@@ -81,7 +81,7 @@ class Onboarding {
             let statusOnSubmitRegister = document.getElementById('statusOnSubmitRegister');
             statusOnSubmitRegister.hidden = false;
             forwarding.setAttribute('disabled', true);
-            axios.post("http://localhost:5555/api/register", { params: { user: this.state.username, password: this.state.password, avatar_url: this.state.avatar }})
+            axios.post("http://game4fun.ddns.net/api/register", { params: { user: this.state.username, password: this.state.password, avatar_url: this.state.avatar }})
                 .then(() => {
                     console.log('successs')
                     statusOnSubmitRegister.hidden = true;
@@ -109,7 +109,7 @@ class Onboarding {
                 this.statusOnSubmit.hidden = false;
                 this.btnSubmit.setAttribute('disabled', true);
 
-                axios.post("http://localhost:5555/api/login?user=" + this.username.value.toLowerCase())
+                axios.post("http://game4fun.ddns.net/api/login?user=" + this.username.value.toLowerCase())
                     .then(authenticateUser => {
                         console.log('user', authenticateUser);
                         switch(authenticateUser.status) {
