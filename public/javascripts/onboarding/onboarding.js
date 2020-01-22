@@ -120,6 +120,14 @@ class Onboarding {
                                 this.btnSubmit.removeAttribute('disabled');
                                 $('#authenticateLoginModal').modal('show');
                                 this.state.username = this.username.value.toLowerCase();
+                                let that = this;
+                                $('#authenticateLoginModal').on('shown.bs.modal', function () {
+                                    let avatar_list = document.getElementById('avatar-list');
+                                    let name = document.getElementById('pseudo-login');
+                                    name.innerText = that.username.value;
+                                    // Set icons avatar
+                                    that.displayAvatars(avatar_list);
+                                });
                             break;
                         };
                     })
@@ -134,7 +142,7 @@ class Onboarding {
                         let that = this;
                         $('#authenticateRegisterModal').on('shown.bs.modal', function () {
                             let avatar_list = document.getElementById('avatar-list');
-                            let name = document.getElementById('name_pseudo');
+                            let name = document.getElementById('pseudo-register');
                             name.innerText = that.username.value;
                             // Set icons avatar
                             that.displayAvatars(avatar_list);
