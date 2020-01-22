@@ -50,7 +50,7 @@ router.post('/api/login', function (req, res) {
                 console.log('userrrrrrr', query)
                     if(user.user_exist) {
                         resolve(user);
-                        res.sendStatus(200);
+                        res.send(user);
                     };
                 })
                 .catch(err => {

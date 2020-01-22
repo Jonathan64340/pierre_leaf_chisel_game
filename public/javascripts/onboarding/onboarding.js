@@ -124,6 +124,8 @@ class Onboarding {
                                 $('#authenticateLoginModal').on('shown.bs.modal', function () {
                                     let avatar_list = document.getElementById('avatar-list');
                                     let name = document.getElementById('pseudo-login');
+                                    let user_avatar = document.getElementById('user-avatar');
+                                    user_avatar.setAttribute('src', authenticateUser.data.user.avatar_url);
                                     name.innerText = that.username.value;
                                     // Set icons avatar
                                     that.displayAvatars(avatar_list);
