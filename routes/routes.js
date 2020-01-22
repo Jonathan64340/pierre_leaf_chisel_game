@@ -75,10 +75,7 @@ router.post('/api/register', function (req, res) {
                 auth.doRegister(userData)
                 .then(userRegistered => {
                     console.log(userRegistered)
-                        if(user.user_exist) {
-                            resolve(user);
-                            res.sendStatus(200);
-                        };
+                    res.sendStatus(200);
                     })
                     .catch(err => {
                         reject(err);

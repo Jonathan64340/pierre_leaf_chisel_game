@@ -77,7 +77,21 @@ class Onboarding {
 
     canForward() {
         if(this.state.username && this.state.avatar && this.state.validateCondition && this.state.password.length >= 3) {
-            axios.post("http://localhost:5555/api/register", { params: { user: this.state.username, password: this.state.password, avatar_url: this.state.avatar }});
+            let forwarding = document.getElementById('forwarding');
+            let statusOnSubmitRegister = document.getElementById('statusOnSubmitRegister');
+            statusOnSubmitRegister.hidden = false;
+            forwarding.setAttribute('disabled', true);
+            axios.post("http://localhost:5555/api/register", { params: { user: this.state.username, password: this.state.password, avatar_url: this.state.avatar }})
+                .then(() => {
+                    console.log('successs')
+                    statusOnSubmitRegister.hidden = true;
+                    forwarding.removeAttribute('disabled');
+                })
+                .catch(err => {
+                    console.log('errrr', err);
+                    statusOnSubmitRegister.hidden = true;
+                    forwarding.removeAttribute('disabled');
+                });
         }
     }
 
