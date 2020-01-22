@@ -66,8 +66,6 @@ class Onboarding {
         let fwd = document.getElementById('forwarding');
 
         if(pwd.value) {
-            console.log(pwd.value)
-            console.log(this.state)
             this.state.password = pwd.value;
             if(this.state.username && this.state.avatar && this.state.validateCondition && this.state.password.length >= 3) {
                 fwd.removeAttribute('disabled');
@@ -78,11 +76,8 @@ class Onboarding {
     }
 
     canForward() {
-        let fwd = document.getElementById('forwarding');
         if(this.state.username && this.state.avatar && this.state.validateCondition && this.state.password.length >= 3) {
-            fwd.removeAttribute('disabled');
-        } else {
-            fwd.setAttribute('disabled', true);  
+            axios.post("http://localhost:5555/api/register", { params: { user: this.state.username, password: this.state.password, avatar_url: this.state.avatar }});
         }
     }
 

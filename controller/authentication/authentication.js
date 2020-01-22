@@ -33,8 +33,21 @@ class Authentication {
        
     };
 
-    doRegister(user='', password='') {
-
+    doRegister(userData) {
+        return new Promise((resolve, reject) => {
+            // Connect to DB
+            this.client.connect(err => {
+                const collection = this.client.db("game").collection("users");
+                // perform actions on the collection object
+                collection.insert(userData)
+                    .then(isRegistered => {
+                        console.log(isRegistered)
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    });
+            });
+        });
     };
 
 };
