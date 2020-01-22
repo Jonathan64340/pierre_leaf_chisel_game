@@ -42,9 +42,10 @@ class Authentication {
                 collection.insert(userData)
                     .then(isRegistered => {
                         console.log(isRegistered)
+                        resolve(isRegistered)
                     })
                     .catch(err => {
-                        console.log(err)
+                        reject(err)
                     });
             });
         });
