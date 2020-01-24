@@ -47,15 +47,16 @@
                         <div class="container mb-5">
                             <img id="user-avatar" class="mx-auto d-block" width="80" height="80" alt="avatar">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mb-0">
                             <label for="pwdl">Mot de passe</label>
-                            <input type="password" class="form-control" name="password" autocomplete="current-password" placeholder="Entrez un mot de passe ici" id="pwdl" value="" onkeypress="Onboarding_.validatePassword()" onkeydown="Onboarding_.validatePassword()" onkeyup="Onboarding_.validatePassword()" onchange="Onboarding_.validatePassword()">
+                            <input type="password" class="form-control" name="password" autocomplete="current-password" placeholder="Entrez un mot de passe ici" id="pwd_login" value="" onkeypress="Onboarding_.validatePassword()" onkeydown="Onboarding_.validatePassword()" onkeyup="Onboarding_.validatePassword()" onchange="Onboarding_.validatePassword()">
                         </div>
+                        <small class="text-danger" id="error_password_description"></small>
                     </form>
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-primary">C'est parti !</button>
+                <button type="button" class="btn btn-primary"id="btnSubmitLoginModal" onclick="Onboarding_.onSubmitModal()"><span class="spinner-grow spinner-grow-sm my-auto" role="status" id="statusOnSubmitLogin" hidden="true" aria-hidden="true"></span>&nbsp;C'est parti !</button>
                 </div>
             </div>
             </div>

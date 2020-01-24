@@ -41,17 +41,20 @@ router.post('/api/login', function (req, res) {
         // Get username
         let parse_url = url.parse(req.url, true);
         let query = parse_url.query['user'].toString();
+
+        console.log(parse_url.query)
+        let query_password = '';
+        if(parse_url.query['password']) {
+            query_password = parse_url.query['password'].toString();
+        }
     
         // Call controller to verify if user exist or not and call action
         let auth = new Authenticate();
         if(typeof query === 'string') {
-            auth.doLogin(query)
+            auth.doLogin(query, query_password)
             .then(user => {
-                console.log('userrrrrrr', query)
-                    if(user.user_exist) {
                         resolve(user);
                         res.send(user);
-                    };
                 })
                 .catch(err => {
                     reject(err);

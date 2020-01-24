@@ -95,6 +95,29 @@ class Onboarding {
         }
     }
 
+    onSubmitModal() {
+        let inputPassword = document.getElementById('pwd_login');
+        let error_password_description = document.getElementById('error_password_description');
+        let btnSubmitLoginModal = document.getElementById('btnSubmitLoginModal');
+        btnSubmitLoginModal.setAttribute('disabled', true);
+        let statusOnSubmitLogin = document.getElementById('statusOnSubmitLogin');
+        statusOnSubmitLogin.hidden = false;
+        axios.post("http://game4fun.ddns.net/api/login?user=" + this.username.value + "&password=" + inputPassword.value)
+            .then(onLogin => {
+                // Generate token and storage it
+                console.log(onLogin)
+                error_password_description.innerText = "";
+                btnSubmitLoginModal.removeAttribute('disabled');
+                if(!onLogin.data.validCredentials) {
+                    error_password_description.innerText = "Le mot de passe saisi est incorrect.";
+                }
+                statusOnSubmitLogin.hidden = true;
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
     onSubmit() {
         if(this.username.value.length >= 3 && this.username.value.length <= 15) {
             // Use regex to escape non alphanumeric characts
