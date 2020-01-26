@@ -7,15 +7,17 @@ class Authentication {
 
         // First login to db
         const uri = process.env.DB_CONN;
-        this.client = new MongoClient(uri, { useNewUrlParser: true, userUnifiedTopology: true });
+        this.client = new MongoClient("mongodb+srv://domjon64:7qGdLVXlbYUyNYOg@game-kattu.mongodb.net", { useNewUrlParser: true, userUnifiedTopology: true });
+        this.connectionReady = true;
         
     };
 
     doLogin(user='', password='') {
         return new Promise((resolve, reject) => {
             // Connect to DB
-            if(user.length > 1 && password.length == 0) {
+            if(user.length > 1 && password.length == 0 && this.connectionReady) {
                 this.client.connect(err => {
+                    console.log(this.client)
                     const collection = this.client.db("game").collection("users");
                     // perform actions on the collection object
                     collection.findOne({ 'username': user }, function (err, user) {
@@ -28,8 +30,8 @@ class Authentication {
                     });
 
                     if(err) {
-                        this.client.close();
                         console.log('Reject ligne 32')
+                        this.client.close();
                         reject(err);
                     };
                 }); 
@@ -75,18 +77,20 @@ class Authentication {
     doRegister(userData) {
         return new Promise((resolve, reject) => {
             // Connect to DB
-            this.client.connect(err => {
-                const collection = this.client.db("game").collection("users");
-                // perform actions on the collection object
-                collection.insert(userData)
-                    .then(isRegistered => {
-                        console.log(isRegistered)
-                        resolve(isRegistered)
-                    })
-                    .catch(err => {
-                        reject(err)
-                    });
-            });
+            if(this.connectionReady) {
+                this.client.connect(err => {
+                    const collection = this.client.db("game").collection("users");
+                    // perform actions on the collection object
+                    collection.insert(userData)
+                        .then(isRegistered => {
+                            console.log(isRegistered)
+                            resolve(isRegistered)
+                        })
+                        .catch(err => {
+                            reject(err)
+                        });
+                });
+            }
         });
     };
 
