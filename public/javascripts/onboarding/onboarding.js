@@ -109,7 +109,8 @@ class Onboarding {
                 if(onLogin.data.access_token) {
                     axios.get("http://localhost/dashboard", { headers: { 'Authorization': 'Bearer ' + onLogin.data.access_token }})
                         .then(data => {
-                            console.log(data)
+                            // Not best solution but it work ...
+                            document.getElementsByTagName('html')[0].innerHTML = data.data
                         })
                         .catch(err => {
                             console.log(err)

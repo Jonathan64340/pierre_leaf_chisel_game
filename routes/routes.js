@@ -7,7 +7,6 @@ const url = require('url');
 const Authenticate = require('../controller/authentication/authentication.js');
 const bcrypt = require('bcryptjs');
 let auth = new Authenticate();
-const http = require('http');
 
 // middleware that is specific to this router
 router.get('/', function (req, res) {
@@ -16,7 +15,6 @@ router.get('/', function (req, res) {
     Breadcrumb.setBreadcrumb(req.path);
 
     res.render('onboarding/index', { breadcrumb: Breadcrumb.data.location, current_path: req.path });
-    
 });
 
 // Define route to access on dashboard
@@ -29,12 +27,12 @@ router.get('/dashboard', auth.verifyJWTToken, function (req, res) {
 });
 
 // Define route to logout user
-router.get('/api/logout', function (req, res) {
+router.post('/api/logout', function (req, res) {
     // Get location
     let Breadcrumb = new Breadcrumb_();
     Breadcrumb.setBreadcrumb(req.path);
     
-    res.render('onboarding/index', { breadcrumb: Breadcrumb.data.location, current_path: req.path, action: 'logout' });
+    res.render('onboarding/index', { breadcrumb: Breadcrumb.data.location, current_path: req.path });
 });
 
 // Authenticate user
@@ -58,7 +56,7 @@ router.post('/api/login', function (req, res) {
                     
                     if(user.access_token) {
                         resolve(user);
-                        res.send(user);
+                        res.send(user);                   
                     } else {
                         resolve(user);
                         res.send(user);
