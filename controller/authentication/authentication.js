@@ -75,16 +75,19 @@ class Authentication {
     };
 
     doRegister(userData) {
+        let that = this;
         return new Promise((resolve, reject) => {
             // Connect to DB
             if(this.connectionReady) {
                 this.client.connect(err => {
                     const collection = this.client.db("game").collection("users");
                     // perform actions on the collection object
-                    collection.insert(userData)
+                    collection.insertOne(userData)
                         .then(isRegistered => {
-                            console.log(isRegistered)
-                            resolve(isRegistered)
+                            // console.log(isRegistered)
+                            console.log(isRegistered.insertedId)
+                            const newUser = Object.assign({}, { isRegistered, id_: isRegistered.insertedId })
+                            resolve({newUser, access_token: that.generateJWTToken(userData)})
                         })
                         .catch(err => {
                             reject(err)

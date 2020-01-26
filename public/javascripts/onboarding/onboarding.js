@@ -82,10 +82,19 @@ class Onboarding {
             statusOnSubmitRegister.hidden = false;
             forwarding.setAttribute('disabled', true);
             axios.post("http://localhost/api/register", { params: { user: this.state.username, password: this.state.password, avatar_url: this.state.avatar }})
-                .then(() => {
-                    console.log('successs')
+                .then(user => {
+                    console.log(user)
                     statusOnSubmitRegister.hidden = true;
                     forwarding.removeAttribute('disabled');
+                    axios.get("http://localhost/dashboard", { headers: { 'Authorization': 'Bearer ' + user.data.access_token }})
+                        .then(result => {
+                            console.log(result)
+                            // Not best solution but it work ...
+                            document.getElementsByTagName('html')[0].innerHTML = result.data;
+                        })
+                        .catch(err => {
+                            console.log(err)
+                        })
                 })
                 .catch(err => {
                     console.log('errrr', err);

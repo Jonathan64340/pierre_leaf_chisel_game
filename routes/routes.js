@@ -24,6 +24,7 @@ router.get('/dashboard', auth.verifyJWTToken, function (req, res) {
     let Breadcrumb = new Breadcrumb_();
     Breadcrumb.setBreadcrumb(req.path);
     res.render('dashboard/index', { breadcrumb: Breadcrumb.data.location, current_path: req.path });
+    console.log('hello ma couille !')
 });
 
 // Define route to logout user
@@ -84,7 +85,7 @@ router.post('/api/register', function (req, res) {
                 auth.doRegister(userData)
                 .then(userRegistered => {
                     console.log(userRegistered)
-                    res.sendStatus(200);
+                    res.send(userRegistered);
                     })
                     .catch(err => {
                         reject(err);
