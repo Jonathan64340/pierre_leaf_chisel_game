@@ -81,7 +81,7 @@ class Onboarding {
             let statusOnSubmitRegister = document.getElementById('statusOnSubmitRegister');
             statusOnSubmitRegister.hidden = false;
             forwarding.setAttribute('disabled', true);
-            axios.post("http://game4fun.ddns.net/api/register", { params: { user: this.state.username, password: this.state.password, avatar_url: this.state.avatar }})
+            axios.post("http://localhost/api/register", { params: { user: this.state.username, password: this.state.password, avatar_url: this.state.avatar }})
                 .then(() => {
                     console.log('successs')
                     statusOnSubmitRegister.hidden = true;
@@ -102,7 +102,7 @@ class Onboarding {
         btnSubmitLoginModal.setAttribute('disabled', true);
         let statusOnSubmitLogin = document.getElementById('statusOnSubmitLogin');
         statusOnSubmitLogin.hidden = false;
-        axios.post("http://game4fun.ddns.net/api/login?user=" + this.username.value + "&password=" + inputPassword.value)
+        axios.post("http://localhost/api/login?user=" + this.username.value + "&password=" + inputPassword.value)
             .then(onLogin => {
                 // Generate token and storage it
                 console.log(onLogin)
@@ -132,7 +132,7 @@ class Onboarding {
                 this.statusOnSubmit.hidden = false;
                 this.btnSubmit.setAttribute('disabled', true);
 
-                axios.post("http://game4fun.ddns.net/api/login?user=" + this.username.value.toLowerCase())
+                axios.post("http://localhost/api/login?user=" + this.username.value.toLowerCase())
                     .then(authenticateUser => {
                         console.log('user', authenticateUser);
                         switch(authenticateUser.status) {

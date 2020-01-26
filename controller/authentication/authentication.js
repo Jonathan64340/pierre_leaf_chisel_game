@@ -1,5 +1,6 @@
 const MongoClient = require('mongodb').MongoClient;
 const brcypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 class Authentication {
     constructor() {
@@ -13,7 +14,7 @@ class Authentication {
     doLogin(user='', password='') {
         return new Promise((resolve, reject) => {
             // Connect to DB
-            if(user && !password) {
+            if(user.length > 1 && password.length == 0) {
                 this.client.connect(err => {
                     const collection = this.client.db("game").collection("users");
                     // perform actions on the collection object
@@ -21,38 +22,47 @@ class Authentication {
                         if(user !== null) {
                             resolve({ 'user': user, 'user_exist': true });
                         } else {
+                            console.log('Reject ligne 25')
                             reject({ 'user_exist': false });
                         };
                     });
 
                     if(err) {
-                        console.log('error de connexion')
                         this.client.close();
+                        console.log('Reject ligne 32')
                         reject(err);
                     };
                 }); 
             } else {
+                let that = this;
                 this.client.connect(err => {
                     const collection = this.client.db("game").collection("users");
                     // perform actions on the collection object
-                    collection.findOne({ 'username': user }, function (err, user) {
+                    collection.findOne({ 'username': user }, async function (err, user) {
                         if(user !== null) {
-                            brcypt.compare(password, user.password, err)
-                                .then(usr => {
-                                    // resolve({ 'user': user, 'user_exist': true });
-                                    resolve({ validCredentials: usr});
+                            console.log(password, user.password)
+                            await brcypt.compare(password, user.password, err)
+                            .then(usr => {
+                                // resolve({ 'user': user, 'user_exist': true });
+                                    if(usr) {
+                                        resolve({ validCredentials: usr, access_token: that.generateJWTToken(user) });
+                                    } else {
+                                        resolve({ validCredentials: usr });
+                                    }
                                 })
                                 .catch(err => {
-                                    reject({ validCredentials: err, raison: "Le mot de passe saisi est incorrect."});
+                                    console.log('Reject ligne 53')
+                                    reject(err);
                                 })
                         } else {
+                            console.log('Reject ligne 56')
                             reject({ 'user_exist': false });
                         };
                     });
 
                     if(err) {
-                        console.log('error de connexion')
                         this.client.close();
+                        console.log('Reject ligne 64')
                         reject(err);
                     };
                 }); 
@@ -78,6 +88,32 @@ class Authentication {
                     });
             });
         });
+    };
+
+    generateJWTToken(userData) {
+        return jwt.sign(userData, process.env.SECRET_KEY);
+    };
+
+    verifyJWTToken(req, res, next) {
+        const bearerHeader = req.headers['authorization'];
+        console.log('headers ********', req.headers)
+
+        if (bearerHeader) {
+            const bearer = bearerHeader.split(' ');
+            const bearerToken = bearer[1];
+            req.token = bearerToken;
+
+            jwt.verify((req.token), process.env.SECRET_KEY, function (err, decoded) {
+                if(err) {
+                    res.sendStatus(401);
+                }
+            })
+
+            next();
+          } else {
+            // Forbidden
+            res.sendStatus(401);
+          }
     };
 
 };

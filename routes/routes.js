@@ -6,6 +6,7 @@ const Breadcrumb_ = require('../public/javascripts/breadcrumb/breadcrumb.js');
 const url = require('url');
 const Authenticate = require('../controller/authentication/authentication.js');
 const bcrypt = require('bcryptjs');
+let auth = new Authenticate();
 
 // middleware that is specific to this router
 router.get('/', function (req, res) {
@@ -18,7 +19,7 @@ router.get('/', function (req, res) {
 });
 
 // Define route to access on dashboard
-router.get('/dashboard', function (req, res) {
+router.get('/dashboard', auth.verifyJWTToken, function (req, res) {
     // Check user before redirect
     // Get location
     let Breadcrumb = new Breadcrumb_();
@@ -49,12 +50,16 @@ router.post('/api/login', function (req, res) {
         }
     
         // Call controller to verify if user exist or not and call action
-        let auth = new Authenticate();
         if(typeof query === 'string') {
             auth.doLogin(query, query_password)
             .then(user => {
+                console.log('user ***********',user)
+                    if(user.access_token) {
                         resolve(user);
                         res.send(user);
+                    }
+                    resolve(user);
+                    res.send(user);
                 })
                 .catch(err => {
                     reject(err);
@@ -71,7 +76,6 @@ router.post('/api/register', function (req, res) {
         const userData = {};
         bcrypt.hash(req.body.params.password, 10)
             .then(passwordHash => {
-                let auth = new Authenticate();
                 Object.assign(userData, { username: req.body.params.user, password: passwordHash, avatar_url: req.body.params.avatar_url });
                 console.log(userData)
                    // Call controller to verify if user exist or not and call action
@@ -90,28 +94,6 @@ router.post('/api/register', function (req, res) {
             });
      
     });
-});
-
-// Define route to return JWT Token to pass bearer on request
-router.post('/api/access_token', function (req, res) {
-    return new Promise((resolve, reject) => {
-        // Call controller to verify if user exist or not and call action
-        let auth = new Authenticate();
-        auth.doLogin(req.body.username)
-                .then(user => {
-                        if(user.user_exist) {
-                            resolve(user);
-                            res.sendStatus(200);
-                        };
-                        console.log('utilisateur authentifié !')
-                    })
-                    .catch(err => {
-                        reject(err);
-                        console.log('utilisateur non authentifié !')
-                        res.sendStatus(401);
-                    });
-    });
-    
 });
 
 // Redirect to dashboard or login if user is not logged in
