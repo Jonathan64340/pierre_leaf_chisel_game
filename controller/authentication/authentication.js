@@ -99,7 +99,7 @@ class Authentication {
     };
 
     verifyJWTToken(req, res, next) {
-        const bearerHeader = req.headers['authorization'];
+        const bearerHeader = req.headers['x-access-token'] || req.headers['authorization'];
         console.log('headers ********', req.headers)
 
         if (bearerHeader) {

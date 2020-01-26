@@ -106,6 +106,15 @@ class Onboarding {
             .then(onLogin => {
                 // Generate token and storage it
                 console.log(onLogin)
+                if(onLogin.data.access_token) {
+                    axios.get("http://localhost/dashboard", { headers: { 'Authorization': 'Bearer ' + onLogin.data.access_token }})
+                        .then(data => {
+                            console.log(data)
+                        })
+                        .catch(err => {
+                            console.log(err)
+                        })
+                }
                 error_password_description.innerText = "";
                 btnSubmitLoginModal.removeAttribute('disabled');
                 if(!onLogin.data.validCredentials) {

@@ -7,6 +7,7 @@ const url = require('url');
 const Authenticate = require('../controller/authentication/authentication.js');
 const bcrypt = require('bcryptjs');
 let auth = new Authenticate();
+const http = require('http');
 
 // middleware that is specific to this router
 router.get('/', function (req, res) {
@@ -51,17 +52,20 @@ router.post('/api/login', function (req, res) {
     
         // Call controller to verify if user exist or not and call action
         if(typeof query === 'string') {
-            auth.doLogin(query, query_password)
+            auth.doLogin(query, query_password, res)
             .then(user => {
                 console.log('user ***********',user)
+                    
                     if(user.access_token) {
                         resolve(user);
                         res.send(user);
+                    } else {
+                        resolve(user);
+                        res.send(user);
                     }
-                    resolve(user);
-                    res.send(user);
                 })
                 .catch(err => {
+                    console.log('errrrrrrrrrrrr *********', err)
                     reject(err);
                     res.sendStatus(404);
                 });
