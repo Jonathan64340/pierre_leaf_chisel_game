@@ -1,0 +1,10 @@
+@font-face {
+    font-family: "Badabb";
+    src: url(../../fonts/BADABB__.TTF);
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(#e66465, #9198e5);
+}

@@ -55,10 +55,11 @@ router.post('/api/login', function (req, res) {
             .then(user => {
                 console.log('user ***********',user)
                     
-                    if(user.access_token) {
-                        resolve(user);
-                        res.send(user);                   
-                    } else {
+                    if(user.access_token) {     
+                        // User logged successfully then redirect to dashboard with header authorization and bearer token
+                        res.set({ 'Authorization': 'Bearer ' + user.access_token, 'Accept': 'text/html'})
+                        res.send(user).redirect(307, '/dashboard');
+                    } else {    
                         resolve(user);
                         res.send(user);
                     }

@@ -86,15 +86,6 @@ class Onboarding {
                     console.log(user)
                     statusOnSubmitRegister.hidden = true;
                     forwarding.removeAttribute('disabled');
-                    axios.get("http://localhost/dashboard", { headers: { 'Authorization': 'Bearer ' + user.data.access_token }})
-                        .then(result => {
-                            console.log(result)
-                            // Not best solution but it work ...
-                            document.getElementsByTagName('html')[0].innerHTML = result.data;
-                        })
-                        .catch(err => {
-                            console.log(err)
-                        })
                 })
                 .catch(err => {
                     console.log('errrr', err);
