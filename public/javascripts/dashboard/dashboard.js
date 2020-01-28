@@ -1,6 +1,6 @@
 class Dashboard {
     click() {
-        console.log(document.getElementById('button-click'))
+        console.log('hey')
     }
 }
 

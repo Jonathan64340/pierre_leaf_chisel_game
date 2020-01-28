@@ -18,6 +18,7 @@ class Onboarding {
         this.statusOnSubmit = document.getElementById('statusOnSubmit');
         // Buttons
         this.btnSubmit = document.getElementById('btnSubmit');
+        this.baseUrl = "http://192.168.1.10";
 
         let that = this;
 
@@ -81,7 +82,7 @@ class Onboarding {
             let statusOnSubmitRegister = document.getElementById('statusOnSubmitRegister');
             statusOnSubmitRegister.hidden = false;
             forwarding.setAttribute('disabled', true);
-            axios.post("http://localhost/api/register", { params: { user: this.state.username, password: this.state.password, avatar_url: this.state.avatar }})
+            axios.post(this.baseUrl + "/api/register", { params: { user: this.state.username, password: this.state.password, avatar_url: this.state.avatar }})
                 .then(user => {
                     console.log(user)
                     statusOnSubmitRegister.hidden = true;
@@ -102,12 +103,12 @@ class Onboarding {
         btnSubmitLoginModal.setAttribute('disabled', true);
         let statusOnSubmitLogin = document.getElementById('statusOnSubmitLogin');
         statusOnSubmitLogin.hidden = false;
-        axios.post("http://localhost/api/login?user=" + this.username.value + "&password=" + inputPassword.value)
+        axios.post(this.baseUrl + "/api/login?user=" + this.username.value + "&password=" + inputPassword.value)
             .then(onLogin => {
                 // Generate token and storage it
                 console.log(onLogin)
                 if(onLogin.data.access_token) {
-                    axios.get("http://localhost/dashboard", { headers: { 'Authorization': 'Bearer ' + onLogin.data.access_token }})
+                    axios.get(this.baseUrl + "/dashboard", { headers: { 'Authorization': 'Bearer ' + onLogin.data.access_token }})
                         .then(data => {
                             // Not best solution but it work ...
                             document.getElementsByTagName('html')[0].innerHTML = data.data
@@ -142,7 +143,7 @@ class Onboarding {
                 this.statusOnSubmit.hidden = false;
                 this.btnSubmit.setAttribute('disabled', true);
 
-                axios.post("http://localhost/api/login?user=" + this.username.value.toLowerCase())
+                axios.post(this.baseUrl + "/api/login?user=" + this.username.value.toLowerCase())
                     .then(authenticateUser => {
                         console.log('user', authenticateUser);
                         switch(authenticateUser.status) {
