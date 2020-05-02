@@ -1,29 +1,45 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Pierre, Papier, Ciseaux</title>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="styles/footer/footer.css" type="text/css">
     <link rel="stylesheet" href="styles/dashboard/dashboard.css" type="text/css">
     <link rel="stylesheet" href="styles/header/header.css" type="text/css">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
     <script src="javascripts/dashboard/dashboard.js"></script>
 </head>
+
 <body>
     <%- include("../header/index.ejs") %>
     <main>
-        <div class="container-wide">
+        <div class="container-wide menu-stack">
             <div class="row">
-                <aside class="col-md-2">
-                    <img scr="images/profile/1.svg"/>
-                </aside>
+                <div class="col-md-2 col-xs-2 col-lg-2 background-asside-clear w-100">
+                    <div class="container">
+                        <div class="m-2 container-avatar d-flex flex-row">
+                            <img id="avatar" class="d-flex flex-grow" alt="avatar" width="45" height="45" />
+                            <div class="ml-2 d-flex flex-wrap align-items-center">
+                                <span class="flex-row text-dark text-uppercase w-100" id="username"></span>
+                                <span class="flex-row text-dark w-100" id="menu-score">Parties jouées : 51</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
     <%- include("../footer/index") %>
 </body>
+
 </html>
