@@ -28,16 +28,16 @@ class Onboarding {
             that.setIcon(that.chisel, 3);
         }
 
-        if(typeof localStorage.getItem('token') !== "undefined" && typeof localStorage.getItem('token') === "string" && localStorage.getItem('token').length > 10) {
+        if (typeof localStorage.getItem('token') !== "undefined" && typeof localStorage.getItem('token') === "string" && localStorage.getItem('token').length > 10) {
             return window.location = "http://localhost/dashboard";
         }
 
     }
 
     selectAvatar(avatar) {
-        for(let i = 0; i <= document.getElementsByClassName('active-avatar').length; i++) {
-            if(typeof document.getElementsByClassName('active-avatar')[i] !== 'undefined') {
-                if(new RegExp(/(active-avatar)/gi).test(document.getElementsByClassName('active-avatar')[i].className)) {
+        for (let i = 0; i <= document.getElementsByClassName('active-avatar').length; i++) {
+            if (typeof document.getElementsByClassName('active-avatar')[i] !== 'undefined') {
+                if (new RegExp(/(active-avatar)/gi).test(document.getElementsByClassName('active-avatar')[i].className)) {
                     document.getElementsByClassName('active-avatar')[i].classList.remove('active-avatar');
                 }
             };
@@ -47,10 +47,10 @@ class Onboarding {
 
         let fwd = document.getElementById('forwarding');
 
-        if(this.state.username && this.state.avatar && this.state.validateCondition && this.state.password.length >= 3) {
+        if (this.state.username && this.state.avatar && this.state.validateCondition && this.state.password.length >= 3) {
             fwd.removeAttribute('disabled');
         } else {
-            fwd.setAttribute('disabled', true);  
+            fwd.setAttribute('disabled', true);
         }
     }
 
@@ -59,10 +59,10 @@ class Onboarding {
 
         this.state.validateCondition = !this.state.validateCondition;
         console.log(this.state)
-        if(this.state.username && this.state.avatar && this.state.validateCondition && this.state.password.length >= 3) {
+        if (this.state.username && this.state.avatar && this.state.validateCondition && this.state.password.length >= 3) {
             fwd.removeAttribute('disabled');
         } else {
-            fwd.setAttribute('disabled', true);  
+            fwd.setAttribute('disabled', true);
         }
     }
 
@@ -70,28 +70,29 @@ class Onboarding {
         let pwd = document.getElementById('pwd');
         let fwd = document.getElementById('forwarding');
 
-        if(pwd.value) {
+        if (pwd.value) {
             this.state.password = pwd.value;
-            if(this.state.username && this.state.avatar && this.state.validateCondition && this.state.password.length >= 3) {
+            if (this.state.username && this.state.avatar && this.state.validateCondition && this.state.password.length >= 3) {
                 fwd.removeAttribute('disabled');
             } else {
-                fwd.setAttribute('disabled', true);  
+                fwd.setAttribute('disabled', true);
             }
         }
     }
 
     canForward() {
-        if(this.state.username && this.state.avatar && this.state.validateCondition && this.state.password.length >= 3) {
+        if (this.state.username && this.state.avatar && this.state.validateCondition && this.state.password.length >= 3) {
             let forwarding = document.getElementById('forwarding');
             let statusOnSubmitRegister = document.getElementById('statusOnSubmitRegister');
             statusOnSubmitRegister.hidden = false;
             forwarding.setAttribute('disabled', true);
-            axios.post(this.baseUrl + "/api/register", { params: { user: this.state.username, password: this.state.password, avatar_url: this.state.avatar }})
+            axios.post(this.baseUrl + "/api/register", { params: { user: this.state.username, password: this.state.password, avatar_url: this.state.avatar } })
                 .then(user => {
                     console.log(user)
                     statusOnSubmitRegister.hidden = true;
                     forwarding.removeAttribute('disabled');
                     localStorage.setItem('token', user.data.access_token);
+                    localStorage.setItem('USER', JSON.stringify({ username: this.state.username, avatar: this.state.avatar }));
                     window.location = "/dashboard";
                 })
                 .catch(err => {
@@ -113,10 +114,11 @@ class Onboarding {
             .then(onLogin => {
                 // Generate token and storage it
                 console.log(onLogin)
-                if(onLogin.data.access_token) {
-                    axios.get(this.baseUrl + "/dashboard", { headers: { 'Authorization': 'Bearer ' + onLogin.data.access_token }})
+                if (onLogin.data.access_token) {
+                    axios.get(this.baseUrl + "/dashboard", { headers: { 'Authorization': 'Bearer ' + onLogin.data.access_token } })
                         .then(data => {
                             localStorage.setItem('token', onLogin.data.access_token);
+                            localStorage.setItem('USER', JSON.stringify({ username: this.state.username, avatar: this.state.avatar }));
                             window.location = "http://localhost/dashboard";
                         })
                         .catch(err => {
@@ -125,7 +127,7 @@ class Onboarding {
                 }
                 error_password_description.innerText = "";
                 btnSubmitLoginModal.removeAttribute('disabled');
-                if(!onLogin.data.validCredentials) {
+                if (!onLogin.data.validCredentials) {
                     error_password_description.innerText = "Le mot de passe saisi est incorrect.";
                 }
                 statusOnSubmitLogin.hidden = true;
@@ -136,9 +138,9 @@ class Onboarding {
     }
 
     onSubmit() {
-        if(this.username.value.length >= 3 && this.username.value.length <= 15) {
+        if (this.username.value.length >= 3 && this.username.value.length <= 15) {
             // Use regex to escape non alphanumeric characts
-            if(/[^a-zA-Z0-9\-\/]/.test(this.username.value)) {
+            if (/[^a-zA-Z0-9\-\/]/.test(this.username.value)) {
                 this.errorField.innerHTML = `<div class="alert alert-warning alert-dismissible fade show mt-2">
                                                 <strong>Attention !</strong> Le pseudo saisie n'est pas valide. Le pseudo ne doit pas contenir de charactères spéciaux.
                                                 <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -152,8 +154,8 @@ class Onboarding {
                 axios.post(this.baseUrl + "/api/login?user=" + this.username.value.toLowerCase())
                     .then(authenticateUser => {
                         console.log('user', authenticateUser);
-                        switch(authenticateUser.status) {
-                            case 200: 
+                        switch (authenticateUser.status) {
+                            case 200:
                                 this.statusOnSubmit.hidden = true;
                                 this.errorField.innerHTML = "";
                                 // window.location.href = "/dashboard";
@@ -166,11 +168,12 @@ class Onboarding {
                                     let name = document.getElementById('pseudo-login');
                                     let user_avatar = document.getElementById('user-avatar');
                                     user_avatar.setAttribute('src', authenticateUser.data.user.avatar_url);
+                                    that.state.avatar = authenticateUser.data.user.avatar_url;
                                     name.innerText = that.username.value;
                                     // Set icons avatar
                                     that.displayAvatars(avatar_list);
                                 });
-                            break;
+                                break;
                         };
                     })
                     .catch(err => {
@@ -189,7 +192,7 @@ class Onboarding {
                             that.displayAvatars(avatar_list);
                         });
                     });
-                };
+            };
         } else {
             this.statusOnSubmit.hidden = true;
             this.errorField.innerHTML = `<div class="alert alert-warning alert-dismissible fade show mt-2">
@@ -202,39 +205,39 @@ class Onboarding {
 
     displayAvatars(av) {
         let html = "";
-        for(let i = 1; i <= 15; i++) {
+        for (let i = 1; i <= 15; i++) {
             html += `<img src="../images/profile/avatar/${i}.svg" class="rounded m-1 img-thumbnail avatar-select" onClick="Onboarding_.selectAvatar(this)" width="45" height="45" alt="..." onchange="Onboarding_.canForward()"></img>`
-            if(i == 15) {
+            if (i == 15) {
                 av.innerHTML = html;
             }
         };
     };
 
     setIcon(icon, position) {
-        switch(position) {
-            case 1: 
+        switch (position) {
+            case 1:
                 icon.style.width = "80px";
                 icon.style.height = "80px";
                 icon.style.backgroundImage = "url(../../images/weapons.jpg)";
                 icon.style.backgroundSize = "350%";
                 icon.style.backgroundPosition = "5% 52%";
-            break;
+                break;
 
-            case 2: 
+            case 2:
                 icon.style.width = "80px";
                 icon.style.height = "80px";
                 icon.style.backgroundImage = "url(../../images/weapons.jpg)";
                 icon.style.backgroundSize = "350%";
                 icon.style.backgroundPosition = "50% 52%";
-            break;
+                break;
 
-            case 3: 
+            case 3:
                 icon.style.width = "80px";
                 icon.style.height = "80px";
                 icon.style.backgroundImage = "url(../../images/weapons.jpg)";
                 icon.style.backgroundSize = "350%";
                 icon.style.backgroundPosition = "95% 52%";
-            break;
+                break;
         };
     };
 };
