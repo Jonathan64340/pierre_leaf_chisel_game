@@ -91,6 +91,8 @@ class Onboarding {
                     console.log(user)
                     statusOnSubmitRegister.hidden = true;
                     forwarding.removeAttribute('disabled');
+                    localStorage.setItem('token', user.data.access_token);
+                    window.location = "/dashboard";
                 })
                 .catch(err => {
                     console.log('errrr', err);
