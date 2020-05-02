@@ -1,6 +1,7 @@
 <head>
     <link rel="stylesheet" href="styles/header/header.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.1/axios.js"></script>
 </head>
 
 <nav aria-label="breadcrumb">
@@ -13,7 +14,7 @@
                 <li class="breadcrumb-item"><span class="<%= breadcrumb[i].path === current_path ? 'black-text active' : 'black-text' %>" href="<%= breadcrumb[i].path %>"><%= breadcrumb[i].name %></span></li>
             <% } else { %>
                 <% if(breadcrumb[i].action === "logout") { %> 
-                    <li class="breadcrumb-item" onclick="Breadcrumb_.log()"><a class="<%= breadcrumb[i].path === current_path ? 'black-text active' : 'black-text' %>" href="<%= breadcrumb[i].path %>"><%= breadcrumb[i].name %></a></li>
+                    <li class="breadcrumb-item"><a class="<%= breadcrumb[i].path === current_path ? 'black-text active' : 'black-text' %>" onclick="doLogout()" href="<%= breadcrumb[i].path %>"><%= breadcrumb[i].name %></a></li>
                 <% } else { %>
                     <li class="breadcrumb-item"><a class="<%= breadcrumb[i].path === current_path ? 'black-text active' : 'black-text' %>" href="<%= breadcrumb[i].path %>"><%= breadcrumb[i].name %></a></li>
                 <% } %>
@@ -24,3 +25,11 @@
 </nav>
 
 <script src="javascripts/breadcrumb/breadcrumb.js" type="text/javascript"></script>
+<script>
+    function doLogout() {
+        if(typeof localStorage.getItem('token') !== "undefined" && typeof localStorage.getItem('token') === "string") {
+            localStorage.removeItem('token');
+            window.location = "/";
+        }
+    }
+</script>

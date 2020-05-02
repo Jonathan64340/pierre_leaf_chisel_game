@@ -18,7 +18,7 @@ router.get('/', function (req, res) {
 });
 
 // Define route to access on dashboard
-router.get('/dashboard', auth.verifyJWTToken, function (req, res) {
+router.get('/dashboard', function (req, res) {
     // Check user before redirect
     // Get location
     let Breadcrumb = new Breadcrumb_();

@@ -27,12 +27,7 @@ if(typeof module === 'object') {
                 return this.data;
             };
         };
-
-        log() {
-            console.log('ok');
-        };
     };
 
-    const Breadcrumb_ = new Breadcrumb();
     module.exports = Breadcrumb;
 };

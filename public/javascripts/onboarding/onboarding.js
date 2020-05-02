@@ -18,7 +18,7 @@ class Onboarding {
         this.statusOnSubmit = document.getElementById('statusOnSubmit');
         // Buttons
         this.btnSubmit = document.getElementById('btnSubmit');
-        this.baseUrl = "http://192.168.1.10";
+        this.baseUrl = "http://localhost";
 
         let that = this;
 
@@ -26,6 +26,10 @@ class Onboarding {
             that.setIcon(that.pierre, 1);
             that.setIcon(that.leaf, 2);
             that.setIcon(that.chisel, 3);
+        }
+
+        if(typeof localStorage.getItem('token') !== "undefined" && typeof localStorage.getItem('token') === "string" && localStorage.getItem('token').length > 10) {
+            return window.location = "http://localhost/dashboard";
         }
 
     }
@@ -110,8 +114,8 @@ class Onboarding {
                 if(onLogin.data.access_token) {
                     axios.get(this.baseUrl + "/dashboard", { headers: { 'Authorization': 'Bearer ' + onLogin.data.access_token }})
                         .then(data => {
-                            // Not best solution but it work ...
-                            document.getElementsByTagName('html')[0].innerHTML = data.data
+                            localStorage.setItem('token', onLogin.data.access_token);
+                            window.location = "http://localhost/dashboard";
                         })
                         .catch(err => {
                             console.log(err)
